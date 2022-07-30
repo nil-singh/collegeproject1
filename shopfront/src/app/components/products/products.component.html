@@ -1,0 +1,158 @@
+<!-- Filter and sort -->
+
+<div class="user">
+ 
+  
+  <a *ngIf="role=='user'" (click)="viewcart(user1.id)" class="btn cart">
+    <i class="fa fa-shopping-cart"></i>
+    <span>Cart</span>
+  </a>
+  <a *ngIf="role=='user'" (click)="viewwishlist(user1.id)" class="btn cart">
+    <i class="fa fa-shopping-cart"></i>
+    <span>Wishlist</span>
+  </a>
+  <a *ngIf="role!='user'" (click)="userlist()" class="btn cart">
+    <i class="fa fa-shopping-cart"></i>
+    <span>users list</span>
+  </a>
+  <a *ngIf="role!='user'" (click)="addproduct1()" class="btn cart">
+    <i class="fa fa-shopping-cart"></i>
+    <span>Add products</span>
+  </a>
+  <a *ngIf="role=='user'" class="btn cart">
+    
+    <span><strong>{{uname}}</strong></span>
+  </a>
+  </div>
+  
+<div class="container d-flex justify-content-center align-items-center">
+  <h4>Filter and sort Products:</h4>
+  <menu>
+    <label for="product-type" class="px-2">
+      Product type
+      <select name="product-type" id="product-type" class="filter">
+        <option value="0">all</option>
+        <option value="1">Laptops</option>
+        <option value="2">Mobiles</option>
+        <option value="3">Tv</option>
+        <option value="4">Fridges</option>
+      </select>
+    </label>
+    <label for="sort" class="px-2">
+      Sort by
+      <select name="sort" id="sort">
+        <option value="price">Newest</option>
+        <option value="date">Price:High to Low</option>
+        <option value="date">Price:Low to High</option>
+      </select>
+    </label>
+  </menu>
+</div>
+<hr />
+<div *ngIf="varl==1">
+    <table>
+      <thead>
+        <tr>
+          <td>Username</td>
+          <td>Email</td>
+          <td>Password</td>
+          <td>Update</td>
+          <td>Delete</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of userslist">
+        <td>{{user.name}}</td>
+        <td>{{user.type}}</td>
+        <td>{{user.password}}</td>
+        <td><button (click)="updateuser(user.id)">Update</button></td>
+        <td><button (click)="deleteuser(user.id)">Delete</button></td>
+        </tr>
+      </tbody>
+    </table> 
+</div>
+<hr *ngIf="varl==1"/>
+
+
+
+<form *ngIf="update==1" class="p-3 mt-3" [formGroup]="userprofileForm" (ngSubmit)="onSubmit1(userprofileForm.value)">
+  <div class="form-field d-flex align-items-center">
+      <span class="far fa-user"></span>
+      <input type="text" name="userName" id="userName" placeholder="Username" formControlName="name">
+  </div>
+  <div class="form-field d-flex align-items-center">
+      <span class="far fa-user"></span>
+      <input type="email" name="email" id="email" placeholder="email" formControlName="type">
+  </div>
+  <div class="form-field d-flex align-items-center">
+      <span class="fas fa-key"></span>
+      <input type="password" name="password" id="pwd" placeholder="Password" formControlName="password">
+  </div>
+  <button class="btn mt-3">Update</button>
+</form>
+<hr *ngIf="update==1"/>
+
+
+
+<!-- cards generate -->
+<div *ngIf="add==1">
+  <form class="p-3 mt-3" [formGroup]="productprofileForm" (ngSubmit)="onSubmit(productprofileForm.value)">
+    <div class="form-field d-flex align-items-center">
+        <span class="far fa-user"></span>
+        <input type="text" name="userName" id="userName" placeholder="product_name" formControlName="product_name">
+    </div>
+    <div class="form-field d-flex align-items-center">
+        <span class="far fa-user"></span>
+        <input type="email" name="email" id="email" placeholder="product_type" formControlName="product_type">
+    </div>
+    <div class="form-field d-flex align-items-center">
+        <span class="fas fa-key"></span>
+        <input type="password" name="password" id="pwd" placeholder="product_price" formControlName="product_price">
+    </div>
+    <div class="form-field d-flex align-items-center">
+      <span class="fas fa-key"></span>
+      <input type="password" name="password" id="pwd" placeholder="product_desc" formControlName="product_desc">
+    </div>
+    <button class="btn mt-3">add product</button>
+</form> 
+</div>
+<hr *ngIf="add==1">
+<div class="container d-flex justify-content-center flex-wrap col">
+  <div *ngFor="let product of allproducts">
+
+    <div id={{product.productid}} onclick="">
+      <div class="product-item py-2 px-1">
+        <div class="product-title">
+          <a routerLink="/viewproduct">{{product.product_name}}</a>
+          <div class="ratting">
+            <i class="fa fa-star"></i>
+          </div>
+        </div>
+        <div class="product-title">
+          <a routerLink="/viewproduct">{{product.product_type}}</a>
+          <div class="ratting">
+            <i class="fa fa-star"></i>
+          </div>
+        </div>
+        <!-- <div class="product-image">
+          <a routerLink="/viewproduct">
+            <img src={{product.productimg}} alt="Product Image" />
+          </a>
+          <div class="product-action">
+            <a href="#"><i class="fa fa-cart-plus"></i></a>
+            <a href="#"><i class="fa fa-heart"></i></a>
+            <a href="#"><i class="fa fa-search"></i></a>
+          </div>
+        </div> -->
+        <div class="product-price">
+          <h3><span>$</span>{{product.product_price}}</h3>
+          <a *ngIf="role=='user'" class="btn" (click)="buyinview(product.id,user1.id)"><i class="fa
+              fa-shopping-cart"></i>VIEW</a>
+            <a *ngIf="role=='admin'" class="btn" (click)="deleteproduct(product.id)"><i class="fa
+              fa-shopping-cart"></i>DELETE</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<button (click)="usernamecheck()">hoi</button>
